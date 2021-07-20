@@ -64,6 +64,8 @@ wsServer.on('request', function(request) {
     connection.on('close', function(reasonCode, description) {
         console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
     });
-    connection.sendUTF("can you hear me")
-    
+    for (let index = 0; index < 100; index++) {
+        connection.sendUTF("can you hear me");
+    }
+
 });

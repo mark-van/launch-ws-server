@@ -39,8 +39,13 @@ wsServer.on('request', function(request) {
     connection.on('message', function(message) {
         console.log("got a message");
         console.log(message);
-        if (message === "launch"){
-            connection.sendUTF("launch");
+        if (message.type === 'utf8') {
+            console.log("Received: '" + message.utf8Data + "'");
+            console.log(message.utf8Data);
+            if (message.utf8Data === "launch"){
+                connection.sendUTF("launch");
+                console.log("tired sending launch")
+            }
         }
     });
     connection.on('close', function(reasonCode, description) {

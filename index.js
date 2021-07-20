@@ -13,17 +13,19 @@ function heartbeat() {
 const wss = new WebSocket.Server({ port: port });
 
 wss.on('connection', function connection(ws) {
-  ws.isAlive = true;
-  ws.on('pong', heartbeat);
-  ws.on('message', function incoming(data) {
+    ws.isAlive = true;
+    ws.on('pong', heartbeat);
+    ws.on('message', function incoming(data) {
     console.log(data);
-    wss.clients.forEach(function each(client) {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(data);
-      }
+        if (data === "launch") {
+            wss.clients.forEach(function each(client) {
+                if (client.readyState === WebSocket.OPEN) {
+                    client.send(data);
+                }
+            });
+        }
     });
-  });
-  ws.send('something');
+  //ws.send('something');
 });
 
 

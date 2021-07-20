@@ -39,6 +39,9 @@ wsServer.on('request', function(request) {
     connection.on('message', function(message) {
         console.log("got a message");
         console.log(message);
+        if (message === "launch"){
+            connection.sendUTF("launch");
+        }
     });
     connection.on('close', function(reasonCode, description) {
         console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');

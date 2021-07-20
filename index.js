@@ -2,6 +2,7 @@
 const WebSocket = require('ws');
 const port = process.env.PORT || 8080;
 
+function noop() {}
 
 function heartbeat() {
     this.isAlive = true;

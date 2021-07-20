@@ -1,6 +1,16 @@
 var WebSocketServer = require('websocket').server;
 var http = require('http');
 
+
+function sendNumber() {
+    if (connection.connected) {
+        var number = Math.round(Math.random() * 0xFFFFFF);
+        connection.sendUTF(number.toString());
+        setTimeout(sendNumber, 1000);
+    }
+}
+
+
 var server = http.createServer(function(request, response) {
     console.log((new Date()) + ' Received request for ' + request.url);
     response.writeHead(404);
@@ -39,10 +49,13 @@ wsServer.on('request', function(request) {
     connection.on('message', function(message) {
         console.log("got a message");
         console.log(message);
+        connection.sendUTF("can you hear me2");
         if (message.type === 'utf8') {
             console.log("Received: '" + message.utf8Data + "'");
             console.log(message.utf8Data);
+            connection.sendUTF("can you hear me3");
             if (message.utf8Data === "launch"){
+                connection.sendUTF("can you hear me2");
                 connection.sendUTF("launch");
                 console.log("tired sending launch")
             }
@@ -52,4 +65,5 @@ wsServer.on('request', function(request) {
         console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
     });
     connection.sendUTF("can you hear me")
+    
 });
